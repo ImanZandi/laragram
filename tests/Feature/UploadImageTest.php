@@ -15,7 +15,7 @@ class UploadImageTest extends TestCase
     /** @test **/
     public function a_user_can_upload_an_image_and_make_a_new_post()
     {
-        $this->withoutExceptionHandling(); // dont handle exceptions/conditions
+        $this->withoutExceptionHandling(); // dont handle exceptions/conditions , show errors
 
         // for store/upload
         // Given we have a storage for saving images , and we have an image
@@ -72,6 +72,27 @@ class UploadImageTest extends TestCase
         // check: session has error with 'image' name? , test result
         // session set when image format is not valid in PostsController store() method
         // 'image' key set for error name in PostsController store() method
+    }
+
+    /** @test **/
+    public function a_user_can_see_an_uploaded_image()
+    {
+        $this->withoutExceptionHandling(); // show errors
+
+        Storage::fake('public'); // fake storage
+        // storage/framework/testing/disks/public/
+        $image = UploadedFile::fake()->image('test.jpeg'); // fake uploaded image
+
+        $this->post('/posts', [
+            // 'name attr' => value
+            'image' => $image
+        ]);
+
+        // go to index() method in PostsController then go to view
+        $this->get('/posts')->assertSee($image->hashName());
+        // check: image exist with this name in that view?
+        // image name: UUyKHEAS95Bk8LFt98Y6Ct5PZo7LKZDYWrePcMbR.jpeg
+
     }
 
 }

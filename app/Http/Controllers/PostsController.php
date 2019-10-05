@@ -9,13 +9,15 @@ class PostsController extends Controller
 {
     public function index()
     {
-        return view('posts.index');
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
     }
 
     public function store()
     {
         // for test
         request()->validate([
+            // 'name attr' => must be
             'image' => 'required|file|image|mimes:jpeg,png,gif'
         ]);
         // image key is null in test file
@@ -31,12 +33,15 @@ class PostsController extends Controller
             ->storeAs('/images', request()->file('image')->hashName(), 'public');
         // storeAs(path, name of file, storage disk)
         // store in public/images/ folder
-        // storage/framework/testing/disks/public/images/test.jpg
+        // storage/framework/testing/disks/public/images/test.jpg , send from test file
+        // storage/app/public/images/test.jpg , send from browser , send from form
 
         // dd($filePath); // "images/7PwUD3XmizxZqXaF0JXNWHY8uwQSpnxF40cfphED.jpeg"
         Post::create([
             // 'column' => value
             'path' => $filePath
         ]); // save to db
+
+        return back();
     }
 }
