@@ -19,7 +19,7 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('input-file', require('./components/InputFile.vue').default);
+Vue.component('file-uploader', require('./components/FileUploader.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +29,13 @@ Vue.component('input-file', require('./components/InputFile.vue').default);
 
 const app = new Vue({
     el: '#app',
+
+    methods: {
+        // @uploaded attr in view
+        uploaded(data) {
+            // data == response from PostsController , record of saved image in db
+            console.log(data); // Object { path: "images/CwmQbvr9S6JaK1hTqUfJORGb9yfdG6FWvNcZ3KsF.jpeg", updated_at: "2019-10-06 16:22:31", created_at: "2019-10-06 16:22:31", id: 6 }
+
+        }
+    }
 });

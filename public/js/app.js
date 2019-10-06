@@ -1829,6 +1829,57 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FileUploader.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FileUploader.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _InputFile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./InputFile */ "./resources/js/components/InputFile.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "FileUploader",
+  components: {
+    InputFile: _InputFile__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {};
+  },
+  methods: {
+    // @uploaded attr
+    uploaded: function uploaded(file) {
+      var _this = this;
+
+      // console.log(file); // File { name: "2.jpg", lastModified: 1569959238449, webkitRelativePath: "", size: 22276, type: "image/jpeg" }
+      var data = new FormData();
+      data.append('image', file); // 'image' == like name attr , use in controller for check validation and etc
+
+      axios.post('/posts', data).then(function (response) {
+        // after upload get response from controller , $post
+        // console.log(response.data); // Object { path: "images/CcQILzWJThbKQYYuzuKhZ7bFAKeTxSksAsvMHePE.jpeg", updated_at: "2019-10-06 16:08:20", created_at: "2019-10-06 16:08:20", id: 5 }
+        _this.$emit('uploaded', response.data); // run event
+        // send response to view and app.js for show image in view
+
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputFile.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InputFile.vue?vue&type=script&lang=js& ***!
@@ -1842,8 +1893,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "InputFile"
+  name: "InputFile",
+  props: ['name'],
+  // input attr from custom tag
+  data: function data() {
+    return {
+      // value attr: ''
+      image: ''
+    };
+  },
+  methods: {
+    // @change attr
+    change: function change(e) {
+      // e == event == file == image added to input tag
+      // console.log('test');
+      // console.log(e.target.value); // C:\fakepath\1.jpg
+      // console.log(e.target); // <input id="image" class="hidden" data-v-2071d38b="" type="file" name="image" value="image">
+      // console.log(e.target.files); // 0: File { name: "4.jpg", lastModified: 1569959285838, size: 167171 }
+      // console.log(e.target.files[0]); // File { name: "3.jpg", lastModified: 1569959259243, webkitRelativePath: "", size: 180926, type: "image/jpeg" }
+      // this.image = e.target.files[0]; // file/image store in image property
+      this.$emit('uploaded', e.target.files[0]); // run event for export file/image to parent component
+      // event name: 'uploaded'
+      // parent component: FileUploader.vue
+    }
+  }
 });
 
 /***/ }),
@@ -37127,6 +37206,49 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "mb-8" },
+    [
+      _c("input-file", {
+        attrs: { name: "image" },
+        on: { uploaded: _vm.uploaded }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "bg-blue-300 text-white px-12 py-2 rounded-full",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("Upload")]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/InputFile.vue?vue&type=template&id=2071d38b&scoped=true&":
 /*!************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/InputFile.vue?vue&type=template&id=2071d38b&scoped=true& ***!
@@ -37142,7 +37264,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "label",
+    {
+      staticClass:
+        "border-dashed border-2 border-gray-400 px-12 py-12 rounded h-64 flex items-center text-center justify-center text-5xl text-gray-400 mb-4",
+      attrs: { for: _vm.name }
+    },
+    [
+      _vm._v("\n    +\n    "),
+      _c("input", {
+        staticClass: "hidden",
+        attrs: { type: "file", name: _vm.name, id: _vm.name, value: "image" },
+        on: { change: _vm.change }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49312,7 +49449,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('input-file', __webpack_require__(/*! ./components/InputFile.vue */ "./resources/js/components/InputFile.vue")["default"]);
+Vue.component('file-uploader', __webpack_require__(/*! ./components/FileUploader.vue */ "./resources/js/components/FileUploader.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49320,7 +49457,14 @@ Vue.component('input-file', __webpack_require__(/*! ./components/InputFile.vue *
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  methods: {
+    // @uploaded attr in view
+    uploaded: function uploaded(data) {
+      // data == response from PostsController , record of saved image in db
+      console.log(data); // Object { path: "images/CwmQbvr9S6JaK1hTqUfJORGb9yfdG6FWvNcZ3KsF.jpeg", updated_at: "2019-10-06 16:22:31", created_at: "2019-10-06 16:22:31", id: 6 }
+    }
+  }
 });
 
 /***/ }),
@@ -49380,6 +49524,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/FileUploader.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/components/FileUploader.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true& */ "./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true&");
+/* harmony import */ var _FileUploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FileUploader.vue?vue&type=script&lang=js& */ "./resources/js/components/FileUploader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FileUploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "4ce61af5",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FileUploader.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FileUploader.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/FileUploader.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileUploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FileUploader.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FileUploader.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FileUploader_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FileUploader.vue?vue&type=template&id=4ce61af5&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FileUploader_vue_vue_type_template_id_4ce61af5_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

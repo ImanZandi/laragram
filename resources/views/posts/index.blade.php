@@ -2,15 +2,20 @@
 
 @section('content')
     <div class="w-3/4 mx-auto py-12 bg-green-100">
+        <file-uploader @uploaded="uploaded"></file-uploader> <!-- uploaded method call in app.js -->
+        <!-- or -->
+        {{--
         <form action="/posts" method="post" enctype="multipart/form-data" class="mb-8">
             @csrf
-            <input-file></input-file>
-            {{--
+            <input-file name="image"></input-file> <!-- custom tag -->
+            <!-- or -->
+            <!--
             <label for="img" class="border-dashed border-2 border-gray-400 px-12 py-12 rounded h-64 flex items-center text-center justify-center text-5xl text-gray-400 mb-4">+</label>
             <input class="hidden" type="file" name="image" id="img">
-            --}}
+            -->
             <button class="bg-blue-300 text-white px-12 py-2 rounded-full" type="submit">Upload</button>
         </form>
+        --}}
 
         <div class="flex flex-wrap -mx-6">
             @foreach ($posts as $post)

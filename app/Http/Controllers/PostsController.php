@@ -37,10 +37,16 @@ class PostsController extends Controller
         // storage/app/public/images/test.jpg , send from browser , send from form
 
         // dd($filePath); // "images/7PwUD3XmizxZqXaF0JXNWHY8uwQSpnxF40cfphED.jpeg"
-        Post::create([
+        $post = Post::create([
             // 'column' => value
             'path' => $filePath
         ]); // save to db
+
+        // request need response in FileUploader.vue
+        if (request()->wantsJson()) {
+            return $post;
+            // Object { path: "images/CcQILzWJThbKQYYuzuKhZ7bFAKeTxSksAsvMHePE.jpeg", updated_at: "2019-10-06 16:08:20", created_at: "2019-10-06 16:08:20", id: 5 }
+        }
 
         return back();
     }
