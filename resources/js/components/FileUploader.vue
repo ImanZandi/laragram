@@ -22,7 +22,7 @@
             // @uploaded attr
             uploaded(file) {
                 // console.log(file); // File { name: "2.jpg", lastModified: 1569959238449, webkitRelativePath: "", size: 22276, type: "image/jpeg" }
-                this.image = file;
+                this.image = file; // add file to image property
             },
 
             send() {
@@ -33,7 +33,7 @@
                     // after upload get response from controller , $post
                     // console.log(response.data); // Object { path: "images/CcQILzWJThbKQYYuzuKhZ7bFAKeTxSksAsvMHePE.jpeg", updated_at: "2019-10-06 16:08:20", created_at: "2019-10-06 16:08:20", id: 5 }
                     this.$emit('uploaded', response.data); // run event
-                    // send response to view and app.js for show image in view
+                    // send response to PostPage.vue for add/push new image to view , show new image
                 }).catch(error => {
                     console.log(error.response.data.errors);
                 });

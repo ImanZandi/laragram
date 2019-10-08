@@ -2,7 +2,7 @@
 
     <label :for="name" class="border-dashed border-2 border-gray-400 px-12 py-12 rounded h-64 flex items-center text-center justify-center text-5xl text-gray-400 mb-4">
         +
-        <input class="hidden" type="file" :name="name" :id="name" @change="change" value="image">
+        <input class="hidden" type="file" :name="name" :id="name" @change="change">
     </label>
 
 </template>
@@ -14,7 +14,7 @@
 
         data() {
             return {
-                // value attr: ''
+                // property
                 image: ''
             }
         },

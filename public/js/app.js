@@ -1862,7 +1862,7 @@ __webpack_require__.r(__webpack_exports__);
     // @uploaded attr
     uploaded: function uploaded(file) {
       // console.log(file); // File { name: "2.jpg", lastModified: 1569959238449, webkitRelativePath: "", size: 22276, type: "image/jpeg" }
-      this.image = file;
+      this.image = file; // add file to image property
     },
     send: function send() {
       var _this = this;
@@ -1875,7 +1875,7 @@ __webpack_require__.r(__webpack_exports__);
         // after upload get response from controller , $post
         // console.log(response.data); // Object { path: "images/CcQILzWJThbKQYYuzuKhZ7bFAKeTxSksAsvMHePE.jpeg", updated_at: "2019-10-06 16:08:20", created_at: "2019-10-06 16:08:20", id: 5 }
         _this.$emit('uploaded', response.data); // run event
-        // send response to view and app.js for show image in view
+        // send response to PostPage.vue for add/push new image to view , show new image
 
       })["catch"](function (error) {
         console.log(error.response.data.errors);
@@ -1910,7 +1910,7 @@ __webpack_require__.r(__webpack_exports__);
   // input attr from custom tag
   data: function data() {
     return {
-      // value attr: ''
+      // property
       image: ''
     };
   },
@@ -1960,6 +1960,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostPage",
@@ -1967,13 +1968,15 @@ __webpack_require__.r(__webpack_exports__);
     FileUploader: _components_FileUploader__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: ['data'],
-  // all records in posts table
+  // all records in posts table , $posts
   created: function created() {
-    this.posts = this.data;
+    // created() func run automatic
+    this.posts = this.data; // add all records to posts property
   },
   data: function data() {
     return {
-      posts: []
+      posts: [] // posts property , all records
+
     };
   },
   methods: {
@@ -1984,7 +1987,7 @@ __webpack_require__.r(__webpack_exports__);
     attachToPosts: function attachToPosts(post) {
       // post == response from controller , new record
       // console.log(post); // Object { path: "images/hLQtr1kFVdwHyjwU1xgJ6Xv3B5VX5IPu86rjqVmB.jpeg", updated_at: "2019-10-08 18:59:49", created_at: "2019-10-08 18:59:49", id: 3 }
-      this.posts.push(post);
+      this.posts.push(post); // add new record to posts property
     }
   }
 });
@@ -37340,7 +37343,7 @@ var render = function() {
       _vm._v("\n    +\n    "),
       _c("input", {
         staticClass: "hidden",
-        attrs: { type: "file", name: _vm.name, id: _vm.name, value: "image" },
+        attrs: { type: "file", name: _vm.name, id: _vm.name },
         on: { change: _vm.change }
       })
     ]
