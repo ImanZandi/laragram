@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    // protected $fillable = ['path'];
-    protected $guarded = [];
+    protected $fillable = ['path', 'owner_id'];
+    // protected $guarded = [];
 }

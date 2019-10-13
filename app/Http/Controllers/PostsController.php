@@ -37,10 +37,17 @@ class PostsController extends Controller
         // storage/app/public/images/test.jpg , send from browser , send from form
 
         // dd($filePath); // "images/7PwUD3XmizxZqXaF0JXNWHY8uwQSpnxF40cfphED.jpeg"
+        /*
         $post = Post::create([
             // 'column' => value
-            'path' => $filePath
+            'path' => $filePath,
+            'owner_id' => auth()->id()
         ]); // save to db
+        */
+        // or
+        $post = auth()->user()->posts()->create([
+            'path' => $filePath
+        ]); // owner_id column fill automatic
 
         // request need response in FileUploader.vue
         if (request()->wantsJson()) {
