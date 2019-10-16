@@ -1,0 +1,7 @@
+.feedback {
+    @apply text-sm p-3 rounded;
+
+    &--invalid {
+        @apply text-red-800 bg-red-100;
+    }
+}

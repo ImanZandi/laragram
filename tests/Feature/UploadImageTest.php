@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Post;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -12,6 +13,22 @@ use Tests\TestCase;
 class UploadImageTest extends TestCase
 {
     use RefreshDatabase; // any time you run tests records in db replace to new record
+
+    /** @test **/
+    public function an_authenticated_user_can_not_see_other_users_images()
+    {
+        $this->withoutExceptionHandling();
+
+        $david = $this->signIn(); // david signed in
+
+        $john = factory(User::class)->create(['name' => 'john']); // make user , john
+
+        $post = factory(Post::class)->create(['owner_id' => $john->id]); // post create by john
+
+        $this->get('/posts')->assertDontSee($post->path);
+        // check: in view david dont see john record ?
+        // $post->path == john record
+    }
 
     /** @test **/
     public function guests_can_not_make_a_new_post()
@@ -112,7 +129,7 @@ class UploadImageTest extends TestCase
     }
 
     /** @test **/
-    public function a_user_can_see_an_uploaded_image()
+    public function a_user_can_see_his_uploaded_images()
     {
         $this->withoutExceptionHandling(); // show errors
 

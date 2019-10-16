@@ -1847,6 +1847,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FileUploader",
@@ -1855,7 +1862,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      image: ''
+      image: '',
+      errors: {},
+      // empty object , errors { image: "The image field is required." }
+      showError: false
     };
   },
   methods: {
@@ -1878,7 +1888,25 @@ __webpack_require__.r(__webpack_exports__);
         // send response to PostPage.vue for add/push new image to view , show new image
 
       })["catch"](function (error) {
-        console.log(error.response.data.errors);
+        // if data not valid in controller , session set for error
+        // error name: image , array key , name attr
+        // Network Response: {"message":"The given data was invalid.","errors":{"image":["The image field is required."]}}
+        // console.log(error);
+        // Error: "Request failed with status code 422"
+        // console.log(error.response);
+        // { config {}, data {}, headers {}, request {}, status: 422, statusText: "Unprocessable Entity" }
+        // console.log(error.response.data);
+        // { message: "The given data was invalid.", errors: {...} }
+        // errors { image: Array [ "The image field is required." ] }
+        // console.log(error.response.data.errors);
+        // { image: Array [ "The image field is required." ] }
+        // console.log(error.response.data.errors['image'][0]);
+        // The image field is required.
+        _this.showError = true;
+        _this.errors.image = error.response.data.errors['image'][0]; // in errors object make image property , errors { image: }
+        // 'image' is error name that set in controller when data not valid
+        // this.errors.image = "The image field is required."
+        // errors { image: "The image field is required." }
       });
     }
   }
@@ -1961,6 +1989,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "PostPage",
@@ -1988,6 +2018,21 @@ __webpack_require__.r(__webpack_exports__);
       // post == response from controller , new record
       // console.log(post); // Object { path: "images/hLQtr1kFVdwHyjwU1xgJ6Xv3B5VX5IPu86rjqVmB.jpeg", updated_at: "2019-10-08 18:59:49", created_at: "2019-10-08 18:59:49", id: 3 }
       this.posts.push(post); // add new record to posts property
+    },
+    dismissPost: function dismissPost(post) {
+      var _this = this;
+
+      // go to controller with delete method , /posts/id , send id of record to controller
+      // after record delete controller send response to here
+      axios["delete"]('/posts/' + post.id).then(function (response) {
+        // filter() is like loop
+        // each time loop run one record in posts property move to oldPost
+        // then if oldPost.id != post.id oldPost return to posts property
+        // if oldPost.id == post.id oldPost not return to posts property , record deleted
+        _this.posts = _this.posts.filter(function (oldPost) {
+          return oldPost.id != post.id;
+        });
+      });
     }
   }
 });
@@ -37297,15 +37342,24 @@ var render = function() {
         on: { uploaded: _vm.uploaded }
       }),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "bg-blue-300 text-white px-12 py-2 rounded-full",
-          attrs: { type: "submit" },
-          on: { click: _vm.send }
-        },
-        [_vm._v("Upload")]
-      )
+      _c("div", { staticClass: "mb-3" }, [
+        _c(
+          "button",
+          {
+            staticClass: "bg-blue-300 text-white px-12 py-2 rounded-full",
+            attrs: { type: "submit" },
+            on: { click: _vm.send }
+          },
+          [_vm._v("Upload")]
+        )
+      ]),
+      _vm._v(" "),
+      _vm.showError
+        ? _c("span", {
+            staticClass: "feedback feedback--invalid",
+            domProps: { textContent: _vm._s(_vm.errors.image) }
+          })
+        : _vm._e()
     ],
     1
   )
@@ -37382,10 +37436,27 @@ var render = function() {
         _vm._l(_vm.posts, function(post) {
           return _c("div", { staticClass: "w-1/3 mb-12" }, [
             _c("div", { staticClass: "px-6" }, [
-              _c("div", {
-                staticClass: "w-full h-64 rounded",
-                style: _vm.style(post)
-              })
+              _c(
+                "div",
+                {
+                  staticClass: "w-full h-64 rounded relative",
+                  style: _vm.style(post)
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "dismiss-icon",
+                      on: {
+                        click: function($event) {
+                          return _vm.dismissPost(post)
+                        }
+                      }
+                    },
+                    [_vm._v("x")]
+                  )
+                ]
+              )
             ])
           ])
         }),

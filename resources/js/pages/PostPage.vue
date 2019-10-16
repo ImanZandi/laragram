@@ -7,7 +7,9 @@
                 <!-- use posts property , all records in it -->
                 <!-- v-for == like foreach -->
                 <div class="px-6">
-                    <div :style="style(post)" class="w-full h-64 rounded"></div>
+                    <div :style="style(post)" class="w-full h-64 rounded relative">
+                        <span class="dismiss-icon" @click="dismissPost(post)">x</span>
+                    </div>
                     <!-- run style() method and send each record to it -->
                 </div>
             </div>
@@ -44,6 +46,20 @@
                 // post == response from controller , new record
                 // console.log(post); // Object { path: "images/hLQtr1kFVdwHyjwU1xgJ6Xv3B5VX5IPu86rjqVmB.jpeg", updated_at: "2019-10-08 18:59:49", created_at: "2019-10-08 18:59:49", id: 3 }
                 this.posts.push(post); // add new record to posts property
+            },
+
+            dismissPost(post) {
+                // go to controller with delete method , /posts/id , send id of record to controller
+                // after record delete controller send response to here
+                axios.delete('/posts/' + post.id).then(response => {
+                    // filter() is like loop
+                    // each time loop run one record in posts property move to oldPost
+                    // then if oldPost.id != post.id oldPost return to posts property
+                    // if oldPost.id == post.id oldPost not return to posts property , record deleted
+                    this.posts = this.posts.filter(oldPost => {
+                        return oldPost.id != post.id;
+                    });
+                });
             }
         }
     }

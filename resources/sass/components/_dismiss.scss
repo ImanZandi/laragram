@@ -1,0 +1,14 @@
+.dismiss-icon {
+    @apply text-white absolute justify-center rounded-full;
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    top: -15px;
+    left: -15px;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+
+    &:hover {
+        @apply bg-red-500 font-bold;
+    }
+}
