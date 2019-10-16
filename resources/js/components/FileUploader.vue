@@ -10,6 +10,8 @@
         <span class="feedback feedback--invalid" v-if="showError" v-text="errors.image"></span>
         <!-- v-if is condition , when v-if is false span tag not show and v-text not work -->
         <!-- v-text is text of span tag -->
+        <!-- errors.image == in errors object image property -->
+        <!-- showError == property -->
     </div>
 </template>
 
