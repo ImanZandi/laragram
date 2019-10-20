@@ -5,7 +5,12 @@
         @apply w-full block;
     }
     .input {
-        @apply w-full block;
+        @apply w-full block border-2;
+        background-color: #f1f1f1;
+
+        &:focus {
+            @apply border-2 border-indigo-500;
+        }
     }
 }
 .label {

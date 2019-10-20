@@ -41,4 +41,32 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'owner_id');
     }
+
+    public function followers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'followings',
+            'follower',
+            'following'
+        );
+        // 'follower' and 'following' are foreign keys in followings table
+        // foreign keys related to id column in users table
+    }
+
+    public function follow(User $user)
+    {
+        // $user == following
+        $this->followers()->attach($user); // add $user to followers list
+        // 'follower' and 'following' columns fill automatic
+        // $user id add to 'following' column
+        // auth() id add to 'follower' column
+    }
+
+    public function isFollowing(User $user)
+    {
+        return $this->followers->contains($user);
+        // followers() method in User model
+        // exist $user in followers ?
+    }
 }

@@ -4,7 +4,7 @@
         <input-file name="image" @uploaded="uploaded"></input-file>
 
         <div class="mb-3">
-            <button @click="send" class="bg-blue-300 text-white px-12 py-2 rounded-full" type="submit">Upload</button>
+            <button @click="send" class="btn btn-primary" type="submit">Upload</button>
         </div>
 
         <span class="feedback feedback--invalid" v-if="showError" v-text="errors.image"></span>

@@ -11373,7 +11373,7 @@ video {
 }
 
 .card {
-  background-color: #edf2f7;
+  background-color: #fff;
   padding-left: 3rem;
   padding-right: 3rem;
   padding-top: 2rem;
@@ -11404,6 +11404,13 @@ video {
 .form-group .input {
   width: 100%;
   display: block;
+  border-width: 2px;
+  background-color: #f1f1f1;
+}
+
+.form-group .input:focus {
+  border-width: 2px;
+  border-color: #667eea;
 }
 
 .label {
@@ -11465,6 +11472,34 @@ video {
 .feedback--invalid {
   color: #9b2c2c;
   background-color: #fff5f5;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+.navbar {
+  background-color: #fff;
+  border-bottom-width: 1px;
+  border-color: #e2e8f0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.navbar__brand {
+  width: 250px;
+}
+
+.navbar__brand > img {
+  width: 100%;
+}
+
+.navbar__nav {
+  margin-left: auto;
+}
+
+.navbar .nav-item {
+  margin-left: 0.75rem;
 }
 
 @media (min-width: 640px) {
