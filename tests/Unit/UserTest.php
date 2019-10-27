@@ -38,8 +38,8 @@ class UserTest extends TestCase
 
         $john->follow($jane); // follow() method in User model
 
-        $this->assertTrue($john->followers->contains($jane));
-        // check: in followers() method in User model exist $jane ?
+        $this->assertTrue($john->followings->contains($jane));
+        // check: in followings() method in User model exist $jane ?
     }
 
     /** @test **/
@@ -51,9 +51,11 @@ class UserTest extends TestCase
 
         $john->follow($jane); // follow() method in User model
 
-        $this->assertInstanceOf(Collection::class, $john->followers);
-        // $john->followers == followers() method in User model
-        // check: is john followers a collection ?
+        $this->assertInstanceOf(Collection::class, $jane->followers);
+        // $jane->followers == followers() method in User model
+        // check: is jane followers a collection ?
+
+        $this->assertTrue($john->hasRequestedFollowing($jane));
     }
 
     /** @test **/
@@ -65,7 +67,9 @@ class UserTest extends TestCase
 
         $john->follow($jane); // follow() method in User model
 
-        $this->assertInstanceOf(Collection::class, $jane->followings);
+        $this->assertInstanceOf(Collection::class, $john->followings);
+
+        $this->assertTrue($jane->hasRequestedFollower($john));
     }
 
     /** @test **/
@@ -78,7 +82,6 @@ class UserTest extends TestCase
         $john->follow($jane); // follow() method in User model
 
         $this->assertTrue($john->hasRequestedFollowing($jane));
-        // isFollowing() method in User model
     }
 
     /** @test **/
@@ -112,5 +115,33 @@ class UserTest extends TestCase
         $iman->decline($sina);
 
         $this->assertTrue($iman->hasDeclined($sina));
+    }
+
+    /** @test **/
+    public function it_can_accept_a_request_from_another_user()
+    {
+        $iman = $this->signIn();
+
+        $sina = factory(User::class)->create();
+
+        $sina->follow($iman);
+
+        $iman->accept($sina);
+
+        $this->assertTrue($sina->isFollowing($iman));
+    }
+
+    /** @test **/
+    public function it_can_check_if_a_user_is_following_them()
+    {
+        $iman = $this->signIn();
+
+        $sina = factory(User::class)->create();
+
+        $sina->follow($iman);
+
+        $iman->accept($sina);
+
+        $this->assertTrue($sina->isFollowing($iman));
     }
 }

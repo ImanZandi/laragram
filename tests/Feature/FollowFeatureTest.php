@@ -32,7 +32,7 @@ class FollowFeatureTest extends TestCase
         // check: in followings table in this columns is iman follow john ?
 
         $this->assertTrue($iman->hasRequestedFollowing($john));
-        // isFollowing() method in User model
+        // hasRequestedFollowing() method in User model
     }
 
     /** @test **/
@@ -64,7 +64,7 @@ class FollowFeatureTest extends TestCase
         $sina = factory(User::class)->create(); // sina signed in before
 
         $sina->follow($iman);
-        // iman move to sina's followers and request status set to suspended
+        // iman move to sina's followings and request status set to suspended
 
         $this->assertTrue($sina->hasRequestedFollowing($iman));
         // is sina sent follow request to iman ? : YES
@@ -80,5 +80,28 @@ class FollowFeatureTest extends TestCase
         $this->assertFalse($sina->hasRequestedFollowing($iman));
         // is sina sent follow request to iman ? : NO
         // request declined by iman
+    }
+
+    /** @test **/
+    public function a_user_can_accept_another_user_following_request()
+    {
+        $this->withoutExceptionHandling();
+
+        $iman = $this->signIn();
+
+        $sina = factory(User::class)->create();
+
+        $sina->follow($iman);
+
+        $this->post('/followers/' . $sina->id . '/accept');
+        // iman accept sina's request
+
+        $this->assertTrue($sina->isFollowing($iman));
+
+        $this->assertDatabaseHas('followings', [
+            'follower' => $sina->id,
+            'following' => $iman->id,
+            'status' => FollowingStatusManager::STATUS_ACCEPTED
+        ]);
     }
 }
