@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Laragram\Following\FollowingStatusManager;
 use App\Post;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,6 +57,18 @@ class UserTest extends TestCase
     }
 
     /** @test **/
+    public function it_may_have_many_followings()
+    {
+        $john = $this->signIn(); // $john == User model
+
+        $jane = factory(User::class)->create(); // make user
+
+        $john->follow($jane); // follow() method in User model
+
+        $this->assertInstanceOf(Collection::class, $jane->followings);
+    }
+
+    /** @test **/
     public function it_can_check_if_is_following_someone_else()
     {
         $john = $this->signIn(); // $john == User model
@@ -64,7 +77,40 @@ class UserTest extends TestCase
 
         $john->follow($jane); // follow() method in User model
 
-        $this->assertTrue($john->isFollowing($jane));
+        $this->assertTrue($john->hasRequestedFollowing($jane));
         // isFollowing() method in User model
+    }
+
+    /** @test **/
+    public function it_can_decline_a_following_request()
+    {
+        $iman = $this->signIn();
+
+        $sina = factory(User::class)->create();
+
+        $sina->follow($iman);
+
+        $iman->decline($sina);
+
+        $this->assertDatabaseHas('followings', [
+            'follower' => $sina->id,
+            'following' => $iman->id,
+            'status' => FollowingStatusManager::STATUS_DECLINED
+        ]);
+
+    }
+
+    /** @test **/
+    public function it_can_check_if_a_user_has_declined()
+    {
+        $iman = $this->signIn();
+
+        $sina = factory(User::class)->create();
+
+        $sina->follow($iman);
+
+        $iman->decline($sina);
+
+        $this->assertTrue($iman->hasDeclined($sina));
     }
 }
