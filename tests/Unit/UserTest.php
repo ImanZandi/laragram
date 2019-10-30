@@ -15,6 +15,15 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test **/
+    public function it_know_their_path()
+    {
+        $user = create(User::class);
+
+        $this->assertEquals('/users/' . $user->id, $user->path());
+        // check: /users/id == $user->path() ?
+    }
+
+    /** @test **/
     public function it_may_has_many_posts()
     {
         $this->withoutExceptionHandling();
