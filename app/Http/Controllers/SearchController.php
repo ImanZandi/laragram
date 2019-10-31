@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -19,7 +20,7 @@ class SearchController extends Controller
 
         $search = request('q');
 
-        // Search with Algolia
+        return User::search($search)->get();
 
     }
 }

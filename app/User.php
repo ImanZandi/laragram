@@ -60,8 +60,14 @@ class User extends Authenticatable
             $user->username = $username; // add it to username column
             */
             // or
-            $user->username = $user->generateUsername();
+            // $user->username = $user->generateUsername();
             // $user like $this but we can't use $this
+            // or
+            // maybe we want set username when create user with factory , dont generate hashed username
+            if (!$user->username) {
+                // if username column empty then generate hashed username
+                $user->username = $user->generateUsername();
+            }
         });
     }
 
