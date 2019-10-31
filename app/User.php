@@ -8,10 +8,11 @@ use App\Laragram\Following\FollowingStatusManager;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use Notifiable, Follower, Following;
+    use Notifiable, Follower, Following, Searchable;
     // use trait for categorization methods in User model
 
     /**
