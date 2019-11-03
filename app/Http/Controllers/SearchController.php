@@ -18,9 +18,21 @@ class SearchController extends Controller
 
         // dd(request('q')); // "foobar"
 
-        $search = request('q');
+        $search = request('q'); // users/search?q=foobar
 
-        return User::search($search)->get();
+        // $users = User::search($search)->get();
+        // ->get() method give all users , million users !!!
 
+        // search with algolia to find users with $search name/email/username
+        $users = User::search($search)->paginate(25);
+        // ->paginate(25) method give 25 users
+
+        if (request()->expectsJson()) {
+            // ->expectsJson() == ->wantsJson()
+            // request() need json in SearchTest.php
+            return $users; // algolia users found
+        }
+        // else
+        return view('users.index', compact('users'));
     }
 }
