@@ -104,4 +104,29 @@ class FollowFeatureTest extends TestCase
             'status' => FollowingStatusManager::STATUS_ACCEPTED
         ]);
     }
+
+    /** @test **/
+    public function a_user_can_cancel_his_follow_request()
+    {
+        $this->withoutExceptionHandling();
+
+        $iman = create(User::class);
+
+        $sina = $this->signIn(create(User::class, ['name' => 'sina']));
+
+        $sina->follow($iman); // status set to suspended
+
+        $this->post('/following/' . $iman->id . '/cancel');
+        // sina cancel his follow request
+
+        $this->assertFalse($sina->hasRequestedFollowing($iman));
+        // sina has sent follow request to iman ?
+
+        $this->assertDatabaseMissing('followings', [
+            'follower' => $sina->id,
+            'following' => $iman->id,
+            'status' => FollowingStatusManager::STATUS_SUSPENDED
+        ]); // Missing from db
+
+    }
 }

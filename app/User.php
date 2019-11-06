@@ -107,4 +107,14 @@ class User extends Authenticatable
 
     }
 
+    public function toSearchableArray()
+    {
+        // toSearchableArray() == run automatic when user create/register , default method in laravel
+
+        // $this == new user/record that want to save in User model , Register new user
+        // generate 'path' column for new user , add 'path' column beside other columns
+        // but 'path' column not store in users table in db , store in algolia site
+        return $this->toArray() + ['path' => $this->path()];
+    }
+
 }
